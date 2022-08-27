@@ -1,0 +1,21 @@
+az group create -l westeurope  -n rg-terraform
+
+create a service principal (why we will find out later on?)
+az ad sp create-for-rbac -n sp-terraform  
+
+Create a service connection from azure devops
+
+create an azure blob storage
+
+az storage account create --resource-group rg-terraform --name stterraform2022 --sku Standard_LRS --encryption-services blob
+
+az storage account keys list --resource-group rg-terraform --account-name stterraform2022
+
+az storage account keys list --resource-group rg-terraform --account-name stterraform2022 --query [0].value
+
+# or use keyvault
+
+2022-08-25T11:04:45.591527+00:00  key1       FULL           Lef2KpgS7n7+IgXEEH1m1a88WxwPeyxLohBb/kgG82yrEXpUwsRZeRi5ZxAA0JPyp04q4QSwQkyf+AStg4kCqw==
+2022-08-25T11:04:45.591527+00:00  key2       FULL           O3FEYHUkJs5n+I1Rc//PANn+qOGsqjMCEScYzqCyXsYshun7jXugKxU4M7BccK/jYBv+AGt0V9PQ+ASt6/pfrQ==
+
+az storage container create  --name stcontainerterraform --account-name stterraform2022 --account-key Lef2KpgS7n7+IgXEEH1m1a88WxwPeyxLohBb/kgG82yrEXpUwsRZeRi5ZxAA0JPyp04q4QSwQkyf+AStg4kCqw==
