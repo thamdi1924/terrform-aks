@@ -23,6 +23,24 @@ variable "acr_name" {
   description = "ACR name"
 }
 
+#Use this data source to access the configuration of the AzureRM provider.
+
+data "azurerm_client_config" "current" {
+}
+
+output "account_id" {
+  value = data.azurerm_client_config.current.client_id
+}
+
+terraform {
+  backend "azurerm" {
+    resource_group_name  = "rg-terraform"
+    storage_account_name = "stterraform2022"
+    container_name       = "stcontainerterraform"
+    key                  = "terraform.tfstate"
+  }
+}
+
 resource "azurerm_resource_group" "aks-rg" {
   name     = var.resource_group_name
   location = var.location
@@ -43,57 +61,57 @@ resource "azurerm_container_registry" "acr" {
   admin_enabled       = false
 }
 
-resource "azurerm_kubernetes_cluster" "aks" {
-  name                = var.cluster_name
-  kubernetes_version  = var.kubernetes_version
-  location            = var.location
-  resource_group_name = azurerm_resource_group.aks-rg.name
-  dns_prefix          = var.cluster_name
+# resource "azurerm_kubernetes_cluster" "aks" {
+#   name                = var.cluster_name
+#   kubernetes_version  = var.kubernetes_version
+#   location            = var.location
+#   resource_group_name = azurerm_resource_group.aks-rg.name
+#   dns_prefix          = var.cluster_name
 
-  default_node_pool {
-    name                = "system"
-    node_count          = var.system_node_count
-    vm_size             = "Standard_DS2_v2"
-    type                = "VirtualMachineScaleSets"
-    availability_zones  = [1, 2, 3]
-    enable_auto_scaling = false
-  }
+#   default_node_pool {
+#     name                = "system"
+#     node_count          = var.system_node_count
+#     vm_size             = "Standard_DS2_v2"
+#     type                = "VirtualMachineScaleSets"
+#     availability_zones  = [1, 2, 3]
+#     enable_auto_scaling = false
+#   }
 
-  identity {
-    type = "SystemAssigned"
-  }
+#   identity {
+#     type = "SystemAssigned"
+#   }
 
-  network_profile {
-    load_balancer_sku = "Standard"
-    network_plugin    = "kubenet" 
-  }
-}
-
-
-output "aks_id" {
-  value = azurerm_kubernetes_cluster.aks.id
-}
+#   network_profile {
+#     load_balancer_sku = "Standard"
+#     network_plugin    = "kubenet" 
+#   }
+# }
 
 
+# output "aks_id" {
+#   value = azurerm_kubernetes_cluster.aks.id
+# }
 
-resource "local_file" "kubeconfig" {
-  depends_on   = [azurerm_kubernetes_cluster.aks]
-  filename     = "kubeconfig"
-  content      = azurerm_kubernetes_cluster.aks.kube_config_raw
-}
 
-output "aks_fqdn" {
-  value = azurerm_kubernetes_cluster.aks.fqdn
-}
 
-output "aks_node_rg" {
-  value = azurerm_kubernetes_cluster.aks.node_resource_group
-}
+# resource "local_file" "kubeconfig" {
+#   depends_on   = [azurerm_kubernetes_cluster.aks]
+#   filename     = "kubeconfig"
+#   content      = azurerm_kubernetes_cluster.aks.kube_config_raw
+# }
 
-output "acr_id" {
-  value = azurerm_container_registry.acr.id
-}
+# output "aks_fqdn" {
+#   value = azurerm_kubernetes_cluster.aks.fqdn
+# }
 
-output "acr_login_server" {
-  value = azurerm_container_registry.acr.login_server
-}
+# output "aks_node_rg" {
+#   value = azurerm_kubernetes_cluster.aks.node_resource_group
+# }
+
+# output "acr_id" {
+#   value = azurerm_container_registry.acr.id
+# }
+
+# output "acr_login_server" {
+#   value = azurerm_container_registry.acr.login_server
+# }
