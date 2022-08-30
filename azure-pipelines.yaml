@@ -1,0 +1,35 @@
+# Azure DevOps pipeline for Azure deployment
+
+#variables:
+#- group: terraform-tuesdays
+
+trigger:
+  branches:
+    include:
+    - main
+  # paths:
+  #  include:
+  # - 2021-05-11-ADO/vnet
+
+stages:
+- stage: Validate
+  displayName: Validate
+  jobs:
+  - job: validate
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - task: TerraformInstaller@0
+      displayName: Install Terraform
+      inputs:
+        terraformVersion: 'latest'
+
+  # Init
+    - task: TerraformCLI@0
+      displayName: Initialize Terraform
+      # env:
+      #  ARM_SAS_TOKEN: $(sas_token)
+      inputs:
+        command: 'init'
+#        workingDirectory: '$(System.DefaultWorkingDirectory)/2021-05-11-ADO/vnet'
+        backendType: 'selfConfigured'
