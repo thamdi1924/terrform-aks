@@ -13,9 +13,14 @@ provider "local" {
 
 terraform {
   required_providers {
+    azuredevops = {
+      source  = "microsoft/azuredevops"
+      version = ">=0.2.2"
+    }
+
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "2.39.0"
+      version = ">= 3.0.0"
     }
     docker = {
       source  = "kreuzwerker/docker"
@@ -23,10 +28,7 @@ terraform {
     }
     local = {
       source = "hashicorp/local"
-      version = "2.2.3"
-    }
+      version = ">= 2.2.3" 
+      }
   }
 }
-
-
-

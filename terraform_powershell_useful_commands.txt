@@ -17,6 +17,8 @@ $ARM_ACCESS_KEY=$(az storage account keys list --resource-group rg-terraform --a
 
 # or use keyvault
 
-export ARM_ACCESS_KEY=$(az keyvault secret show --name terraform-backend-key --vault-name myKeyVault --query value -o tsv)
 
-az storage container create  --name stcontainerterraform --account-name stterraform2022 --account-key 
+az storage container create  --name stcontainerterraform --account-name stterraform2022 --account-key
+
+
+ az pipelines variable list --organization https://dev.azure.com/solutions-thamdi/ --project terraform_aks

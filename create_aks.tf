@@ -32,26 +32,30 @@ output "account_id" {
   value = data.azurerm_client_config.current.client_id
 }
 
+
 terraform {
   backend "azurerm" {
     resource_group_name  = "rg-terraform"
     storage_account_name = "stterraform2022"
     container_name       = "stcontainerterraform"
     key                  = "terraform.tfstate"
+# access_key - (Optional) The Access Key used to access the Blob Storage Account. This can also be sourced from the ARM_ACCESS_KEY environment variable.
   }
 }
+
+
 
 resource "azurerm_resource_group" "aks-rg" {
   name     = var.resource_group_name
   location = var.location
 }
 
-resource "azurerm_role_assignment" "role_acrpull" {
-  scope                            = azurerm_container_registry.acr.id
-  role_definition_name             = "AcrPull"
-  principal_id                     = azurerm_kubernetes_cluster.aks.kubelet_identity.0.object_id
-  skip_service_principal_aad_check = true
-}
+#resource "azurerm_role_assignment" "role_acrpull" {
+ # scope                            = azurerm_container_registry.acr.id
+ #  role_definition_name             = "AcrPull"
+  # principal_id                     = azurerm_kubernetes_cluster.aks.kubelet_identity.0.object_id
+  # skip_service_principal_aad_check = true
+
 
 resource "azurerm_container_registry" "acr" {
   name                = var.acr_name
