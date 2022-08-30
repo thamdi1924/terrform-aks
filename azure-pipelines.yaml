@@ -25,11 +25,13 @@ stages:
         terraformVersion: 'latest'
 
   # Init
-    - task: TerraformCLI@0
-      displayName: Initialize Terraform
-      # env:
-      #  ARM_SAS_TOKEN: $(sas_token)
+    - task: TerraformTaskV3@3
       inputs:
+        provider: 'azurerm'
         command: 'init'
-#        workingDirectory: '$(System.DefaultWorkingDirectory)/2021-05-11-ADO/vnet'
-        backendType: 'selfConfigured'
+        backendServiceArm: 'sc-terraform'
+        backendAzureRmResourceGroupName: 'rg-terraform'
+        backendAzureRmStorageAccountName: 'stterraform2022'
+        backendAzureRmContainerName: 'stcontainerterraform'
+        backendAzureRmKey: 'terraform.tfstate'
+
