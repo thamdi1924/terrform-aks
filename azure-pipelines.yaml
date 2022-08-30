@@ -29,7 +29,7 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'init'
-        backendServiceArm: 'sc-terraform2'
+        backendServiceArm: 'sc-terraformpuffersoft'
         backendAzureRmResourceGroupName: 'rg-terraform'
         backendAzureRmStorageAccountName: 'stterraform2022'
         backendAzureRmContainerName: 'stcontainerterraform'
