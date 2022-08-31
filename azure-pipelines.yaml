@@ -1,8 +1,4 @@
 # Azure DevOps pipeline for Azure deployment
-- task: TerraformTaskV3@3
-  inputs:
-    provider: 'azurerm'
-    command: 'plan'
 
 #variables:
 #- group: terraform-tuesdays
