@@ -24,14 +24,4 @@ stages:
       inputs:
         terraformVersion: 'latest'
 
-  # Init
-    - task: TerraformTaskV3@3
-      inputs:
-        provider: 'azurerm'
-        command: 'init'
-        backendServiceArm: 'sc-terraformpuffersoft'
-        backendAzureRmResourceGroupName: 'rg-terraform'
-        backendAzureRmStorageAccountName: 'stterraform2022'
-        backendAzureRmContainerName: 'stcontainerterraform'
-        backendAzureRmKey: 'terraform.tfstate'
 
