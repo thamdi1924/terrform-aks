@@ -1,4 +1,8 @@
 # Azure DevOps pipeline for Azure deployment
+- task: TerraformTaskV3@3
+  inputs:
+    provider: 'azurerm'
+    command: 'plan'
 
 #variables:
 #- group: terraform-tuesdays
@@ -34,6 +38,11 @@ stages:
         backendAzureRmStorageAccountName: 'stterraformpuffersoft'
         backendAzureRmContainerName: 'stterraformstate'
         backendAzureRmKey: 'terraform.tfstate'
+
+    - task: TerraformTaskV3@3
+      inputs:
+        provider: 'azurerm'
+        command: 'plan'
 
 
 
