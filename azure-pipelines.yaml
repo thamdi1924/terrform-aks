@@ -38,6 +38,7 @@ stages:
     - task: TerraformTaskV3@3
       inputs:
         provider: 'azurerm'
+        environmentServiceNameAzureRM: 'sc-terraform2'
         command: 'plan'
 
 
