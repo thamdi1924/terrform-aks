@@ -29,10 +29,10 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'init'
-        backendServiceArm: 'sc-terraformpuffersoft'
-        backendAzureRmResourceGroupName: 'rg-tarig'
-        backendAzureRmStorageAccountName: 'stterraformpuffersoft'
-        backendAzureRmContainerName: 'stterraformstate'
+        backendServiceArm: 'sc-terraform'
+        backendAzureRmResourceGroupName: 'rg-terraform'
+        backendAzureRmStorageAccountName: 'stterraform2022'
+        backendAzureRmContainerName: 'stcontainerterraform'
         backendAzureRmKey: 'terraform.tfstate'
 
     - task: TerraformTaskV3@3
