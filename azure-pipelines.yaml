@@ -12,7 +12,7 @@ trigger:
   # - 2021-05-11-ADO/vnet
 
 stages:
-- stage: Validate stage
+- stage: Validate st
   displayName: Validate
   jobs:
   - job: validate
