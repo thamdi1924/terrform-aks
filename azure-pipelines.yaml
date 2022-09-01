@@ -49,6 +49,19 @@ stages:
         environmentServiceNameAzureRM: 'sc-terraform2'
         command: 'plan'
 
+- stage: Approve
+  displayName: Approve
+  jobs:
+  - job: approve
+    displayName: Wait for approval
+    pool: server
+    steps: 
+    - task: ManualValidation@0
+      timeoutInMinutes: 60
+      inputs:
+        notifyUsers: 'thamdi@solutions.com.sa'
+        instructions: 'Review the plan in the next hour'
+
 
       
 
