@@ -37,7 +37,7 @@ stages:
         backendAzureRmKey: 'terraform.tfstate'
 
          # Validate
-    - task: TerraformCLI@0
+    - task: TerraformTaskV3@3
       displayName: Validate Config
       inputs:
         command: 'validate'
