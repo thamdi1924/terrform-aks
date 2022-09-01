@@ -48,7 +48,8 @@ stages:
       inputs:
         provider: 'azurerm'
         environmentServiceNameAzureRM: 'sc-terraform2'
-        command: 'plan -o tarigplan.out'
+        command: 'plan'
+        commandOptions: '-out tarigplan.out'
 
 
     # - task: ManualValidation@0
