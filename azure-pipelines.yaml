@@ -62,7 +62,7 @@ stages:
         notifyUsers: 'thamdi@solutions.com.sa'
         instructions: 'Review the plan in the next hour'
      
-  - job: Terraform apply
+  - job: Terraform_apply
     dependsOn: Get_approval    
     steps:
     - task: TerraformTaskV3@3
