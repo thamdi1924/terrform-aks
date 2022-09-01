@@ -50,13 +50,16 @@ stages:
         environmentServiceNameAzureRM: 'sc-terraform2'
         command: 'plan -o tarigplan.out'
 
-
-    # - task: ManualValidation@0
-    #   displayName: wait for approval
-    #   timeoutInMinutes: 60
-    #   inputs:
-    #     notifyUsers: 'thamdi@solutions.com.sa'
-    #     instructions: 'Review the plan in the next hour'
+  - job: Get_approval
+    pool: server
+    steps: 
+    - task: ManualValidation@0
+      displayName: wait for approval
+      timeoutInMinutes: 60
+      inputs:
+        notifyUsers: 'thamdi@solutions.com.sa'
+        instructions: 'Review the plan in the next hour'
+        
     # - task: TerraformTaskV3@3
     #   displayName: Apply Terraform Deployment
     #   inputs:
