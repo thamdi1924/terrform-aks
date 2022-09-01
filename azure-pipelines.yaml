@@ -12,10 +12,10 @@ trigger:
   # - 2021-05-11-ADO/vnet
 
 stages:
-- stage: Validate st
+- stage: Validate_stage
   displayName: Validate
   jobs:
-  - job: validate
+  - job: validate_job
     pool:
       vmImage: ubuntu-latest
     steps:
