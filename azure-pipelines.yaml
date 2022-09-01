@@ -61,13 +61,25 @@ stages:
       inputs:
         notifyUsers: 'thamdi@solutions.com.sa'
         instructions: 'Review the plan in the next hour'
-        
-    # - task: TerraformTaskV3@3
-    #   displayName: Apply Terraform Deployment
-    #   inputs:
-    #      provider: 'azurerm'
-    #      environmentServiceNameAzureRM: 'sc-terraform2'
-    #      command: 'apply'
+     
+  - job: Terraform apply
+    dependsOn: Get_approval    
+    steps:
+    - task: TerraformTaskV3@3
+      displayName: Apply Terraform Deployment
+      inputs:
+         provider: 'azurerm'
+         environmentServiceNameAzureRM: 'sc-terraform2'
+         command: 'apply'
+         commandOptions: '-auto-approve'
+
+
+    - task: TerraformTaskV3@3
+      displayName: Apply Terraform Deployment
+      inputs:
+         provider: 'azurerm'
+         environmentServiceNameAzureRM: 'sc-terraform2'
+         command: 'destroy'
 
 
 
