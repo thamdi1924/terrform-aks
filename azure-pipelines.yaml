@@ -26,6 +26,7 @@ stages:
 
   # Init
     - task: TerraformTaskV3@3
+      displayName: Initiate Terraform
       inputs:
         provider: 'azurerm'
         command: 'init'
@@ -35,11 +36,21 @@ stages:
         backendAzureRmContainerName: 'stcontainerterraform'
         backendAzureRmKey: 'terraform.tfstate'
 
+         # Validate
+    - task: TerraformCLI@0
+      displayName: Validate Config
+      inputs:
+        command: 'validate'
+
     - task: TerraformTaskV3@3
+      displayName: execute plan
       inputs:
         provider: 'azurerm'
         environmentServiceNameAzureRM: 'sc-terraform2'
         command: 'plan'
+
+
+      
 
 
 
