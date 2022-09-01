@@ -10,14 +10,15 @@ trigger:
   # paths:
   #  include:
   # - 2021-05-11-ADO/vnet
+pool:
+  vmImage: ubuntu-latest
 
 stages:
 - stage: Validate_stage
   displayName: Validate
   jobs:
   - job: validate_job
-    pool:
-      vmImage: ubuntu-latest
+
     steps:
     - task: TerraformInstaller@0
       displayName: Install Terraform
