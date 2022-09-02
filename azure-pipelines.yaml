@@ -55,7 +55,7 @@ stages:
       displayName: Apply Terraform Deployment
       inputs:
            provider: 'azurerm'
-           environmentServiceNameAzureRM: 'sc-terraform2'
+           #environmentServiceNameAzureRM: 'sc-terraform2'
            ARM_CLIENT_ID: '12751642-d049-4e33-a5c4-ed624669a496'
            ARM_CLIENT_SECRET: '751b09b0-6d69-4410-bdd8-20010721071a'
            ARM_SUBSCRIPTION_ID: 'b2cb661a-f958-440c-b39d-6d0a0b28de4c'
