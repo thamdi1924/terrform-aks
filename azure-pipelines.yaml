@@ -1,7 +1,7 @@
 # Azure DevOps pipeline for Azure deployment
 
-#variables:
-#- group: terraform-tuesdays
+variables:
+  group: test
 
 trigger:
   branches:
@@ -31,7 +31,7 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'init'
-        backendServiceArm: 'sc-terraform3'
+        backendServiceArm: $(environmentServiceNameAzureRM)
         backendAzureRmResourceGroupName: 'rg-terraform'
         backendAzureRmStorageAccountName: 'stterraform2022'
         backendAzureRmContainerName: 'stcontainerterraform'
@@ -47,7 +47,7 @@ stages:
       displayName: execute plan
       inputs:
         provider: 'azurerm'
-        environmentServiceNameAzureRM: 'sc-terraform3'
+        environmentServiceNameAzureRM: $(environmentServiceNameAzureRM)
         command: 'plan'
         commandOptions: '-out tarigplan.out'
 
@@ -55,7 +55,7 @@ stages:
       displayName: Apply Terraform Deployment
       inputs:
            provider: 'azurerm'
-           environmentServiceNameAzureRM: 'sc-terraform3'
+           environmentServiceNameAzureRM: $(environmentServiceNameAzureRM)
            command: 'apply'
            commandOptions: '-auto-approve'
   
@@ -64,7 +64,7 @@ stages:
       displayName: destroy terraform deployment
       inputs:
            provider: 'azurerm'
-           environmentServiceNameAzureRM: 'sc-terraform3'
+           environmentServiceNameAzureRM: $(environmentServiceNameAzureRM)
            command: 'destroy'
   
 
