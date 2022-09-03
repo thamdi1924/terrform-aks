@@ -31,7 +31,7 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'init'
-        backendServiceArm: 'sc-terraform2'
+        backendServiceArm: 'sc-terraform3'
         backendAzureRmResourceGroupName: 'rg-terraform'
         backendAzureRmStorageAccountName: 'stterraform2022'
         backendAzureRmContainerName: 'stcontainerterraform'
@@ -47,7 +47,7 @@ stages:
       displayName: execute plan
       inputs:
         provider: 'azurerm'
-        environmentServiceNameAzureRM: 'sc-terraform2'
+        environmentServiceNameAzureRM: 'sc-terraform3'
         command: 'plan'
         commandOptions: '-out tarigplan.out'
 
@@ -55,7 +55,7 @@ stages:
       displayName: Apply Terraform Deployment
       inputs:
            provider: 'azurerm'
-           environmentServiceNameAzureRM: 'sc-terraform2'
+           environmentServiceNameAzureRM: 'sc-terraform3'
            command: 'apply'
            commandOptions: '-auto-approve'
   
@@ -64,7 +64,7 @@ stages:
       displayName: Apply Terraform Deployment
       inputs:
            provider: 'azurerm'
-           environmentServiceNameAzureRM: 'sc-terraform2'
+           environmentServiceNameAzureRM: 'sc-terraform3'
            command: 'destroy'
   
 
@@ -86,7 +86,7 @@ stages:
       displayName: Apply Terraform Deployment
       inputs:
          provider: 'azurerm'
-         environmentServiceNameAzureRM: 'sc-terraform2'
+         environmentServiceNameAzureRM: 'sc-terraform3'
          command: 'apply'
          commandOptions: '-auto-approve'
 
@@ -95,7 +95,7 @@ stages:
       displayName: Apply Terraform Deployment
       inputs:
          provider: 'azurerm'
-         environmentServiceNameAzureRM: 'sc-terraform2'
+         environmentServiceNameAzureRM: 'sc-terraform3'
          command: 'destroy'
 
 
