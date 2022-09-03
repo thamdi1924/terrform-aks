@@ -28,11 +28,12 @@ stages:
   # Init
     - task: TerraformTaskV3@3
       displayName: Initiate Terraform
+      env:
+        environmentServiceNameAzureRM: $(environmentServiceNameAzureRM)
       inputs:
         provider: 'azurerm'
         command: 'init'
-        env:
-          environmentServiceNameAzureRM: $(environmentServiceNameAzureRM)
+
         backendAzureRmResourceGroupName: 'rg-terraform'
         backendAzureRmStorageAccountName: 'stterraform2022'
         backendAzureRmContainerName: 'stcontainerterraform'
@@ -46,29 +47,32 @@ stages:
 
     - task: TerraformTaskV3@3
       displayName: execute plan
+      env:
+        environmentServiceNameAzureRM: $(environmentServiceNameAzureRM)
       inputs:
         provider: 'azurerm'
-        env:
-          environmentServiceNameAzureRM: $(environmentServiceNameAzureRM)
+
         command: 'plan'
         commandOptions: '-out tarigplan.out'
 
     - task: TerraformTaskV3@3
       displayName: Apply Terraform Deployment
+      env:
+        environmentServiceNameAzureRM: $(environmentServiceNameAzureRM)
       inputs:
            provider: 'azurerm'
-           env:
-             environmentServiceNameAzureRM: $(environmentServiceNameAzureRM)
+
            command: 'apply'
            commandOptions: '-auto-approve'
   
   
     - task: TerraformTaskV3@3
       displayName: destroy terraform deployment
+      env:
+        environmentServiceNameAzureRM: $(environmentServiceNameAzureRM)
       inputs:
            provider: 'azurerm'
-           env:
-            environmentServiceNameAzureRM: $(environmentServiceNameAzureRM)
+
            command: 'destroy'
   
 
