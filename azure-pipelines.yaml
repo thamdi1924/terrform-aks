@@ -3,10 +3,10 @@
 variables:
   group: test
 
-trigger:
-  branches:
-    include:
-    - main
+trigger: none
+  # branches:
+  #   include:
+  #   - main
   # paths:
   #  include:
   # - 2021-05-11-ADO/vnet
@@ -51,33 +51,33 @@ stages:
         command: 'plan'
         commandOptions: '-out tarigplan.out'
 
-    - task: TerraformTaskV3@3
-      displayName: Apply Terraform Deployment
-      inputs:
-           provider: 'azurerm'
-           environmentServiceNameAzureRM: 'sc-terraform3'
-           command: 'apply'
-           commandOptions: '-auto-approve'
+  #   - task: TerraformTaskV3@3
+  #     displayName: Apply Terraform Deployment
+  #     inputs:
+  #          provider: 'azurerm'
+  #          environmentServiceNameAzureRM: 'sc-terraform3'
+  #          command: 'apply'
+  #          commandOptions: '-auto-approve'
   
   
-    - task: TerraformTaskV3@3
-      displayName: destroy terraform deployment
-      inputs:
-           provider: 'azurerm'
-           environmentServiceNameAzureRM: 'sc-terraform3'
-           command: 'destroy'
+  #   - task: TerraformTaskV3@3
+  #     displayName: destroy terraform deployment
+  #     inputs:
+  #          provider: 'azurerm'
+  #          environmentServiceNameAzureRM: 'sc-terraform3'
+  #          command: 'destroy'
   
 
-  - job: Get_dummy_approval
-    dependsOn: validate_job
-    pool: server
-    steps: 
-    - task: ManualValidation@0
-      displayName: wait for approval
-      timeoutInMinutes: 60
-      inputs:
-        notifyUsers: 'thamdi@solutions.com.sa'
-        instructions: 'Review the plan in the next hour'
+  # - job: Get_dummy_approval
+  #   dependsOn: validate_job
+  #   pool: server
+  #   steps: 
+  #   - task: ManualValidation@0
+  #     displayName: wait for approval
+  #     timeoutInMinutes: 60
+  #     inputs:
+  #       notifyUsers: 'thamdi@solutions.com.sa'
+  #       instructions: 'Review the plan in the next hour'
      
 
 

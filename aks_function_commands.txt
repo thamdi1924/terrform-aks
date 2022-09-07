@@ -1,0 +1,46 @@
+https://docs.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-deploy-cli
+
+
+az group create --name rg-gpu --location eastus
+
+az aks create -g rg-gpu -n aks-gpu --enable-managed-identity --node-count 1 --enable-addons monitoring  --generate-ssh-keys --node-vm-size Standard_B2s 
+
+# get aks cfredentials
+az aks get-credentials --resource-group rg-gpu --name aks-gpu
+
+# monitor service untill it is up and running
+kubectl get service azure-vote-front --watch
+
+
+# https://dev.to/anirudhgarg_99/scale-up-and-down-a-http-triggered-function-app-in-kubernetes-using-keda-4m42
+
+# To enable scaling of a function app (or any other workload) in Kubernetes we at Azure (along with RedHat) built KEDA, Kubernetes Event Driven Autoscaling. 
+# With the combination of aforementioned runtime and KEDA you can run and scale your Azure Functions in your own Kubernetes cluster. 
+# Currently in KEDA we support more than twenty different message event sources including Kafka, RabbitMQ, NATS, Azure Queue, AWS SQS Queue, GCP Pub Sub etc. 
+# However, there is no support for Http request based scaling. 
+# This post outlines one approach on how you can scale a Http Trigerred function app in Kubernetes using the Prometheus KEDA scaled object and an Ingress Controller.
+
+
+kubectl create namespace ingress-nginx
+
+helm install ingress-controller nginx/nginx-ingress --namespace ingress-nginx  --set controller.replicaCount=2  --set controller.metrics.enabled=true  --set controller.podAnnotations."prometheus\.io/scrape"="true"  --set controller.podAnnotations."prometheus\.io/port"="10254"
+
+
+# Use Helm to deploy an NGINX ingress controller and enable metrics and set the right annotations for Prometheus. The ingress controller is installed as service with LoadBalancer type. In addition, a backend Service and a metrics Service are also deployed.
+# helm install ingress-controller stable/n
+# deploy Prometheus.
+kubectl apply --kustomize github.com/kubernetes/ingress-nginx/deploy/prometheus/    
+
+# create a function
+# In a suitable folder, run the following commands to create and activate a virtual environment named .venv. 
+# Make sure that you're using Python 3.8, 3.7 or 3.6, which are supported by Azure Functions.
+requirement for pythonenvironment
+py -m venv .venvdir
+.venv\scripts\activate
+
+https://docs.microsoft.com/en-us/azure/azure-functions/functions-kubernetes-keda
+
+func init --worker-runtime python
+func new --template "HttpTrigger" --name helloworld
+func init --docker-only
+func kubernetes deploy --name function-helloworld --namespace ingress-nginx --service-type ClusterIP --registry anirudhgarg
