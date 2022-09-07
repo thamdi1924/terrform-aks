@@ -48,7 +48,7 @@ stages:
       displayName: execute plan
       inputs:
         provider: 'azurerm'
-        environmentServiceNameAzureRM: 'sc-terraform3'
+        environmentServiceNameAzureRM: $(service_connection)
         command: 'plan'
         commandOptions: '-out tarigplan.out'
 
