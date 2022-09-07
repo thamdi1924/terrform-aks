@@ -2,6 +2,7 @@
 
 variables:
   group: test
+  service_connection: 'sc-terraform3'
 
 trigger: none
   # branches:
@@ -31,7 +32,7 @@ stages:
       inputs:
         provider: 'azurerm'
         command: 'init'
-        backendServiceArm: 'sc-terraform3'
+        backendServiceArm: $(service_connection)
         backendAzureRmResourceGroupName: 'rg-terraform'
         backendAzureRmStorageAccountName: 'stterraform2022'
         backendAzureRmContainerName: 'stcontainerterraform'
