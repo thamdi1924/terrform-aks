@@ -28,7 +28,7 @@ stages:
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: 
-         'az aks get-credentials --name aks-stcs -g rg-aks-stcs-coreservices'
+         'az acr import --name sc-acr-stcs-basic --source quay.io/strimzi/kafka:0.31.1-kafka-3.2.3 --image strimzi/kafka:0.31.1-kafka-3.2.3'
     - task: Kubernetes@1
       inputs:
         connectionType: 'Kubernetes Service Connection'
@@ -40,9 +40,9 @@ stages:
         secretType: 'dockerRegistry'
         containerRegistryType: 'Azure Container Registry'
         
-    - task: Docker@2
-      inputs:
-        containerRegistry: 'sc-acr-stcs-basic'
-        repository: 'nginx'
-        command: 'push'
-        arguments: 'mcr.microsoft.com/oss/nginx/nginx:1.15.5-alpine'
+    # - task: Docker@2
+    #   inputs:
+    #     containerRegistry: 'sc-acr-stcs-basic'
+    #     repository: 'nginx'
+    #     command: 'push'
+    #     arguments: 'mcr.microsoft.com/oss/nginx/nginx:1.15.5-alpine'
