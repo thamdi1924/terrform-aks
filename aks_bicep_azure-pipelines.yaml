@@ -35,5 +35,10 @@ stages:
         azureSubscriptionEndpoint: 'sc-terraform3'
         azureResourceGroup: 'rg-aks-stcs-coreservices'
         kubernetesCluster: 'aks-stcs'
+        useClusterAdmin: true
+        command: 
+        useConfigurationFile: true
         configurationType: 'inline'
         inline: 'kubectl get pod -A'
+        secretType: 'dockerRegistry'
+        containerRegistryType: 'Azure Container Registry'
