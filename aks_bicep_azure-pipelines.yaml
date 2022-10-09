@@ -31,14 +31,12 @@ stages:
          'az aks get-credentials --name aks-stcs -g rg-aks-stcs-coreservices'
     - task: Kubernetes@1
       inputs:
-        connectionType: 'Azure Resource Manager'
-        azureSubscriptionEndpoint: 'sc-azurearm'
-        azureResourceGroup: 'rg-aks-stcs-coreservices'
-        kubernetesCluster: 'aks-stcs'
-        useClusterAdmin: true
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceEndpoint: 'sc-aks-stcs'
         command: 
         useConfigurationFile: true
         configurationType: 'inline'
         inline: 'kubectl get pod -A'
         secretType: 'dockerRegistry'
         containerRegistryType: 'Azure Container Registry'
+        
