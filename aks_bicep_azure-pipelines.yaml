@@ -40,3 +40,9 @@ stages:
         secretType: 'dockerRegistry'
         containerRegistryType: 'Azure Container Registry'
         
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'sc-acr-stcs-basic'
+        repository: 'nginx'
+        command: 'push'
+        arguments: 'mcr.microsoft.com/oss/nginx/nginx:1.15.5-alpine'
