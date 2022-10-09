@@ -17,3 +17,5 @@ az storage account keys list --resource-group rg-terraform --account-name stterr
 2022-08-25T11:04:45.591527+00:00  key2       FULL           O3FEYHUkJs5n+I1Rc//PANn+qOGsqjMCEScYzqCyXsYshun7jXugKxU4M7BccK/jYBv+AGt0V9PQ+ASt6/pfrQ==
 
 az storage container create  --name stcontainerterraform --account-name stterraform2022 --account-key Lef2KpgS7n7+IgXEEH1m1a88WxwPeyxLohBb/kgG82yrEXpUwsRZeRi5ZxAA0JPyp04q4QSwQkyf+AStg4kCqw==
+
+

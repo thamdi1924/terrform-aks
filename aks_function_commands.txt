@@ -1,7 +1,23 @@
 https://docs.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-deploy-cli
 
+az network vnet subnet list --vnet-name vnet-dev-westeu -g rg-coreservices-dev  
 
-az group create --name rg-gpu --location eastus
+az group create --name rg-aks-custom --location westeurope
+
+az aks create -g rg-aks-custom -n aks-medlix-custom --vnet-subnet-id "/subscriptions/f58e161d-d1f4-41f8-b080-ee1fde6b4d3d/resourceGroups/rg-coreservices-dev/providers/Microsoft.Network/virtualNetworks/vnet-dev-westeu/subnets/aksSubnet" --enable-managed-identity --node-count 1 --enable-addons monitoring  --generate-ssh-keys --node-vm-size Standard_B2s     --service-cidr 100.67.68.0/27  --network-plugin kubenet --dns-service-ip 100.67.68.1
+
+az aks create -g rg-aks-custom -n aks-medlix-custom --vnet-subnet-id "/subscriptions/f58e161d-d1f4-41f8-b080-ee1fde6b4d3d/resourceGroups/rg-coreservices-dev/providers/Microsoft.Network/virtualNetworks/vnet-dev-westeu/subnets/aksSubnet" --enable-managed-identity --node-count 1 --enable-addons monitoring  --generate-ssh-keys --node-vm-size Standard_B2s      --network-plugin kubenet
+
+az aks create \
+    --resource-group <private-cluster-resource-group> \
+    --name <private-cluster-name> \
+    --load-balancer-sku standard \
+    --enable-private-cluster \
+    --network-plugin azure \
+    --vnet-subnet-id <subnet-id> \
+    --docker-bridge-address 172.17.0.1/16 \
+    --dns-service-ip 10.2.0.10 \
+    --service-cidr 10.2.0.0/24
 
 az aks create -g rg-gpu -n aks-gpu --enable-managed-identity --node-count 1 --enable-addons monitoring  --generate-ssh-keys --node-vm-size Standard_B2s 
 
@@ -34,13 +50,24 @@ kubectl apply --kustomize github.com/kubernetes/ingress-nginx/deploy/prometheus/
 # create a function
 # In a suitable folder, run the following commands to create and activate a virtual environment named .venv. 
 # Make sure that you're using Python 3.8, 3.7 or 3.6, which are supported by Azure Functions.
-requirement for pythonenvironment
+
+#requirement for python environment
+
 py -m venv .venvdir
 .venv\scripts\activate
 
-https://docs.microsoft.com/en-us/azure/azure-functions/functions-kubernetes-keda
+https://docs.microsoft.com/en-us/azure/azurehttps://artifacthub.io/packages/helm/kedacore/keda-functions/functions-kubernetes-keda
 
 func init --worker-runtime python
 func new --template "HttpTrigger" --name helloworld
 func init --docker-only
 func kubernetes deploy --name function-helloworld --namespace ingress-nginx --service-type ClusterIP --registry anirudhgarg
+
+
+az group create --location westeurope --name rg-aks-dev-westeu
+
+ az deployment group create -g rg-aks-dev-westeu --template-file .\AKSmain.bicep 
+
+ kubectl create -f .\service-mllp-http.yaml
+
+ az aks get-credentials -g rg-aks-dev-westeu --name aks-medlix-dev-westeu

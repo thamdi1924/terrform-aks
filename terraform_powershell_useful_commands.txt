@@ -13,7 +13,7 @@ az storage account keys list --resource-group rg-terraform --account-name stterr
 
 # access_key - (Optional) The Access Key used to access the Blob Storage Account. This can also be sourced from the ARM_ACCESS_KEY environment variable.
 
-$ARM_ACCESS_KEY=$(az storage account keys list --resource-group rg-terraform --account-name stterraform2022 --query [0].value -o tsv)
+
 
 # or use keyvault
 

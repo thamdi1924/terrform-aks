@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-mllp-http
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mllp-http
+  template:
+    metadata:
+      labels:
+        app: mllp-http
+    spec:
+      # nodeSelector:
+      #   "kubernetes.io/os": linux
+      containers:
+      - name: mllp-http
+        image: rivethealth/mllp-http
+        command: ["mllp2http"]
+        args:  ["https://mllp-echo-test.azurewebsites.net/api/echo?code=Lo5OaYK5aRJPaFrZF01SARGRN2-2JDLaLrzl3mwz8wSKAzFuaXHGXw=="]
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 250m
+            memory: 256Mi
+        ports:
+        - containerPort: 2575
+          name: mllp-http
+

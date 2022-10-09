@@ -1,0 +1,89 @@
+# Azure DevOps pipeline for Azure deployment
+
+variables:
+  group: test
+  service_connection: 'sc-terraform3'
+
+trigger: none
+  branches:
+    include:
+    - main
+  paths:
+   include:
+  - 2021-05-11-ADO/vnet
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+- stage: Validate_stage
+  displayName: Validate
+  jobs:
+  - job: validate_job
+
+    steps:
+    - task: TerraformInstaller@0
+      displayName: Install Terraform
+      inputs:
+        terraformVersion: 'latest'
+
+  # Init
+    - task: TerraformTaskV3@3
+      displayName: Initiate Terraform
+      inputs:
+        provider: 'azurerm'
+        command: 'init'
+        backendServiceArm: $(service_connection)
+        backendAzureRmResourceGroupName: 'rg-terraform'
+        backendAzureRmStorageAccountName: 'stterraform2022'
+        backendAzureRmContainerName: 'stcontainerterraform'
+        backendAzureRmKey: 'terraform.tfstate'
+
+         # Validate
+    - task: TerraformTaskV3@3
+      displayName: Validate Config
+      inputs:
+        command: 'validate'
+
+    - task: TerraformTaskV3@3
+      displayName: execute plan
+      inputs:
+        provider: 'azurerm'
+        environmentServiceNameAzureRM: $(service_connection)
+        command: 'plan'
+        commandOptions: '-out tarigplan.out'
+
+  #   - task: TerraformTaskV3@3
+  #     displayName: Apply Terraform Deployment
+  #     inputs:
+  #          provider: 'azurerm'
+  #          environmentServiceNameAzureRM: 'sc-terraform3'
+  #          command: 'apply'
+  #          commandOptions: '-auto-approve'
+  
+  
+  #   - task: TerraformTaskV3@3
+  #     displayName: destroy terraform deployment
+  #     inputs:
+  #          provider: 'azurerm'
+  #          environmentServiceNameAzureRM: 'sc-terraform3'
+  #          command: 'destroy'
+  
+
+  # - job: Get_dummy_approval
+  #   dependsOn: validate_job
+  #   pool: server
+  #   steps: 
+  #   - task: ManualValidation@0
+  #     displayName: wait for approval
+  #     timeoutInMinutes: 60
+  #     inputs:
+  #       notifyUsers: 'thamdi@solutions.com.sa'
+  #       instructions: 'Review the plan in the next hour'
+     
+
+
+
+      
+
+
+
