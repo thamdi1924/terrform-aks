@@ -24,7 +24,7 @@ stages:
        installKubectl: true
     - task: AzureCLI@2
       inputs:
-        azureSubscription: 'sc-terraform3'
+        azureSubscription: 'sc-azurearm'
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: 
@@ -32,7 +32,7 @@ stages:
     - task: Kubernetes@1
       inputs:
         connectionType: 'Azure Resource Manager'
-        azureSubscriptionEndpoint: 'sc-terraform3'
+        azureSubscriptionEndpoint: 'sc-azurearm'
         azureResourceGroup: 'rg-aks-stcs-coreservices'
         kubernetesCluster: 'aks-stcs'
         useClusterAdmin: true
