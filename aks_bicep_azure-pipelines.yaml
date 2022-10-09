@@ -23,7 +23,7 @@ stages:
     - task: AzureCLI@2
       inputs:
         azureSubscription: 'sc-terraform3'
-        scriptType: 'ps'
+        scriptType: 'bash'
         scriptLocation: 'inlineScript'
         inlineScript: 'az aks create -g rg-stcs-ks-cluster -n aks-stcs --vnet-subnet-id "/subscriptions/b2cb661a-f958-440c-b39d-6d0a0b28de4c/resourceGroups/rg-aks-stcs-coreservices/providers/Microsoft.Network/virtualNetworks/corenet/subnets/snet-aks-stcs-node" --enable-managed-identity --node-count 2 --enable-addons monitoring  --generate-ssh-keys --node-vm-size Standard_B2s     --service-cidr 100.67.68.0/27  --network-plugin kubenet --dns-service-ip 100.67.68.2'
         
