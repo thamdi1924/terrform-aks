@@ -13,7 +13,7 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
-- stage: use cli to deploy aks
+- stage: use_cli_to_deploy_aks
   displayName: use cli to deploy aks
   jobs:
   - job: validate_job
