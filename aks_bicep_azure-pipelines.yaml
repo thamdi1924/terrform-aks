@@ -20,6 +20,11 @@ stages:
       inputs:
        helmVersion: '2.14.1'
        installKubectl: true
+    - task: helm@1
+      inputs:
+        subCommand: 'repo'
+        arguments: 'add bitnami https://charts.bitnami.com/bitnami'
+        
     # - task: AzureCLI@2
     #   inputs:
     #     azureSubscription: 'sc-azurearm'
