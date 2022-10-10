@@ -24,7 +24,11 @@ stages:
       inputs:
         subCommand: 'repo'
         arguments: 'add bitnami https://charts.bitnami.com/bitnami'
-        
+    - task: helm@1
+      inputs:
+        subCommand: 'install'
+        arguments: 'nginx bitnami/nginx'
+      
     # - task: AzureCLI@2
     #   inputs:
     #     azureSubscription: 'sc-azurearm'
@@ -37,7 +41,6 @@ stages:
       inputs:
         connectionType: 'Kubernetes Service Connection'
         kubernetesServiceEndpoint: 'sc-aks-serviceaccount'
-        command: 
         useConfigurationFile: true
         configurationType: 'inline'
         inline: 
@@ -45,7 +48,8 @@ stages:
          kubectl get sa
         secretType: 'dockerRegistry'
         containerRegistryType: 'Azure Container Registry'
-        
+        arguments: 
+
       
     - task: KubernetesManifest@0
       inputs:
