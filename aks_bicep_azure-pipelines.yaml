@@ -24,10 +24,18 @@ stages:
       inputs:
         subCommand: 'repo'
         arguments: 'add bitnami https://charts.bitnami.com/bitnami'
-    - task: helm@1
+
+
+
+    - task: HelmDeploy@0
       inputs:
-        subCommand: 'install'
-        arguments: 'nginx bitnami/nginx'
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceConnection: 'sc-aks-serviceaccount'
+        command: 'install'
+        chartType: 'Name'
+        chartName: 'bitnami/nginx'
+        releaseName: 'nginx'
+
       
     # - task: AzureCLI@2
     #   inputs:
