@@ -69,7 +69,7 @@ stages:
             type: LoadBalancer
           S # loadBalancerIP: 100.67.68.197
             ports:
-            - port: 2575
+            - port: 2577
             selector:
               app: mllp-http
         secretType: 'dockerRegistry'
