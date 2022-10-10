@@ -27,9 +27,7 @@ stages:
     #     scriptLocation: 'inlineScript'
     #     inlineScript: 
     #      'az acr import --name sc-acr-stcs-basic --source quay.io/strimzi/kafka:0.31.1-kafka-3.2.3 --image strimzi/kafka:0.31.1-kafka-3.2.3'
-    - task: KubectlInstaller@0
-      inputs:
-        kubectlVersion: 'latest'
+
     - task: Kubernetes@1
       inputs:
         connectionType: 'Kubernetes Service Connection'
@@ -37,9 +35,12 @@ stages:
         command: 
         useConfigurationFile: true
         configurationType: 'inline'
-        inline: 'kubectl get node'
+        inline: 
+         kubectl get service
+         kubectl get sa
         secretType: 'dockerRegistry'
         containerRegistryType: 'Azure Container Registry'
+        
       
     - task: KubernetesManifest@0
       inputs:
