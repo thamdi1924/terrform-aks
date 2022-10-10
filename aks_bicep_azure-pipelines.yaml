@@ -5,6 +5,12 @@ variables:
   service_connection: 'sc-terraform3'
 
 trigger:
+- task: KubernetesManifest@0
+  inputs:
+    action: 'deploy'
+    kubernetesServiceConnection: 'sc-aks-stcs'
+    namespace: 'default'
+    manifests: '$(System.DefaultWorkingDirectory)/mllp-http'
   branches:
     include:
     - main
@@ -22,13 +28,13 @@ stages:
       inputs:
        helmVersion: '2.14.1'
        installKubectl: true
-    - task: AzureCLI@2
-      inputs:
-        azureSubscription: 'sc-azurearm'
-        scriptType: 'bash'
-        scriptLocation: 'inlineScript'
-        inlineScript: 
-         'az acr import --name sc-acr-stcs-basic --source quay.io/strimzi/kafka:0.31.1-kafka-3.2.3 --image strimzi/kafka:0.31.1-kafka-3.2.3'
+    # - task: AzureCLI@2
+    #   inputs:
+    #     azureSubscription: 'sc-azurearm'
+    #     scriptType: 'bash'
+    #     scriptLocation: 'inlineScript'
+    #     inlineScript: 
+    #      'az acr import --name sc-acr-stcs-basic --source quay.io/strimzi/kafka:0.31.1-kafka-3.2.3 --image strimzi/kafka:0.31.1-kafka-3.2.3'
     - task: Kubernetes@1
       inputs:
         connectionType: 'Kubernetes Service Connection'
@@ -36,10 +42,18 @@ stages:
         command: 
         useConfigurationFile: true
         configurationType: 'inline'
-        inline: 'kubectl get pod -A'
+        inline: 'kubectl get node'
         secretType: 'dockerRegistry'
         containerRegistryType: 'Azure Container Registry'
-        
+      
+    - task: KubernetesManifest@0
+      inputs:
+        action: 'deploy'
+        kubernetesServiceConnection: 'sc-aks-stcs'
+        namespace: 'default'
+        manifests: 
+          '$(System.DefaultWorkingDirectory)/mllp-http/deploy-mllp-http-app.yaml'
+
     # - task: Docker@2
     #   inputs:
     #     containerRegistry: 'sc-acr-stcs-basic'
