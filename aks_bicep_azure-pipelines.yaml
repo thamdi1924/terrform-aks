@@ -79,7 +79,7 @@ stages:
     - task: KubernetesManifest@0
       inputs:
         action: 'deploy'
-        kubernetesServiceConnection: 'sc-aks-serviceaccount'
+        kubernetesServiceConnection: 'sc-aks-subscription'
         namespace: 'default'
         manifests: 
           Mllp-http/deploy-mllp-http-app.yaml
