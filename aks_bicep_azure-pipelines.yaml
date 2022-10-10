@@ -62,7 +62,7 @@ stages:
           apiVersion: v1
           kind: Service
           metadata:
-            name: service-mllp-http
+            name: service-mllp-http-2
             annotations:
               service.beta.kubernetes.io/azure-load-balancer-internal: "true"
           spec:
