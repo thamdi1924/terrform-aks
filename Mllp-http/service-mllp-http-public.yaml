@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-mllp-http-public
+  namespace: ns-mllp-http-dev
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-resource-group: rg-coreservices-dev
+spec:
+  type: LoadBalancer
+  loadBalancerIP:   20.224.77.243 # ip-public-mllp-http: https://portal.azure.com/#@erasmusmc.onmicrosoft.com/resource/subscriptions/f58e161d-d1f4-41f8-b080-ee1fde6b4d3d/resourceGroups/rg-coreservices-dev/providers/Microsoft.Network/publicIPAddresses/ip-public-mllp-http
+  ports:
+  - port: 2575
+    # protocol: TCP
+  selector:
+    app: mllp-http

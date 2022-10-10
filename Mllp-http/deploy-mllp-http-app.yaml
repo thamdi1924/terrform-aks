@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-mllp-http
+  namespace: ns-mllp-http-dev
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mllp-http
+  template:
+    metadata:
+      labels:
+        app: mllp-http
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+      # nodeSelector:
+      #   "kubernetes.io/os": linux
+      containers:
+      - name: mllp-http
+        image: crmedlixdev.azurecr.io/mllp-http:latest
+        command: ["mllp2http"]
+        args:  ["https://func-hl7ingest-dev-westeu.azurewebsites.net/api/hl7ingest?code=iv3qnare3TdcFxyjqv02sIus81jmbQT8HJFQOCoITbAGAzFu7G3xhA=="]        
+        securityContext:
+          allowPrivilegeEscalation: false
+        resources:
+          requests:
+            cpu: 1000m
+            memory: 1536Mi
+          limits:
+            cpu: 1000m
+            memory: 1536Mi
+        ports:
+        - containerPort: 2575
+          name: mllp-http
+        
+
