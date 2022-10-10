@@ -21,7 +21,7 @@ spec:
       #   "kubernetes.io/os": linux
       containers:
       - name: mllp-http
-        image: crmedlixdev.azurecr.io/mllp-http:latest
+        image: rivethealth/mllp-http:latest
         command: ["mllp2http"]
         args:  ["https://func-hl7ingest-dev-westeu.azurewebsites.net/api/hl7ingest?code=iv3qnare3TdcFxyjqv02sIus81jmbQT8HJFQOCoITbAGAzFu7G3xhA=="]        
         securityContext:
