@@ -51,38 +51,38 @@ stages:
   jobs:
   - job: execute_kubectl_commands
     steps:
-    - task: Kubernetes@1
-      inputs:
-        connectionType: 'Kubernetes Service Connection'
-        kubernetesServiceEndpoint: 'sc-aks-serviceaccount'
-        command: 
-        useConfigurationFile: true
-        configurationType: 'inline'
-        inline: |
-          apiVersion: v1
-          kind: Service
-          metadata:
-            name: service-mllp-http-2
-            annotations:
-              service.beta.kubernetes.io/azure-load-balancer-internal: "true"
-          spec:
-            type: LoadBalancer
-          S # loadBalancerIP: 100.67.68.197
-            ports:
-            - port: 2577
-            selector:
-              app: mllp-http
-        secretType: 'dockerRegistry'
-        containerRegistryType: 'Azure Container Registry'
+    # - task: Kubernetes@1
+    #   inputs:
+    #     connectionType: 'Kubernetes Service Connection'
+    #     kubernetesServiceEndpoint: 'sc-aks-serviceaccount'
+    #     command: 
+    #     useConfigurationFile: true
+    #     configurationType: 'inline'
+    #     inline: |
+    #       apiVersion: v1
+    #       kind: Service
+    #       metadata:
+    #         name: service-mllp-http-2
+    #         annotations:
+    #           service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+    #       spec:
+    #         type: LoadBalancer
+    #       S # loadBalancerIP: 100.67.68.197
+    #         ports:
+    #         - port: 2577
+    #         selector:
+    #           app: mllp-http
+    #     secretType: 'dockerRegistry'
+    #     containerRegistryType: 'Azure Container Registry'
 
       
-    # - task: KubernetesManifest@0
-    #   inputs:
-    #     action: 'deploy'
-    #     kubernetesServiceConnection: 'sc-aks-serviceaccount'
-    #     namespace: 'default'
-    #     manifests: 
-    #       'service-debezium-connect.yml'
+    - task: KubernetesManifest@0
+      inputs:
+        action: 'deploy'
+        kubernetesServiceConnection: 'sc-aks-serviceaccount'
+        namespace: 'default'
+        manifests: 
+          'mllp-http/deploy-mllp-http-app.yaml'
 
     # - task: Docker@2
     #   inputs:
