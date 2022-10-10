@@ -51,15 +51,29 @@ stages:
   jobs:
   - job: execute_kubectl_commands
     steps:
-    - task: Kubernetes@1
-      inputs:
-          connectionType: 'Kubernetes Service Connection'
-          kubernetesServiceEndpoint: 'sc-aks-serviceaccount'
-          command: 
-          useConfigurationFile: true
-          configuration: '/kubectl_test_coomands.txt'
-          secretType: 'dockerRegistry'
-          containerRegistryType: 'Azure Container Registry'
+- task: Kubernetes@1
+  inputs:
+    connectionType: 'Kubernetes Service Connection'
+    kubernetesServiceEndpoint: 'sc-aks-serviceaccount'
+    command: 
+    useConfigurationFile: true
+    configurationType: 'inline'
+    inline: |
+      apiVersion: v1
+      kind: Service
+      metadata:
+        name: service-mllp-http
+        annotations:
+          service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+      spec:
+        type: LoadBalancer
+       S # loadBalancerIP: 100.67.68.197
+        ports:
+        - port: 2575
+        selector:
+          app: mllp-http
+    secretType: 'dockerRegistry'
+    containerRegistryType: 'Azure Container Registry'
 
       
     # - task: KubernetesManifest@0
