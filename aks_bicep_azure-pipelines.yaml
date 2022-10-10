@@ -5,15 +5,7 @@ variables:
   service_connection: 'sc-terraform3'
 
 trigger:
-- task: KubernetesManifest@0
-  inputs:
-    action: 'deploy'
-    kubernetesServiceConnection: 'sc-aks-stcs'
-    namespace: 'default'
-    manifests: '$(System.DefaultWorkingDirectory)/mllp-http'
-  branches:
-    include:
-    - main
+  - main
  
 pool:
   vmImage: ubuntu-latest
