@@ -33,7 +33,7 @@ stages:
     - task: Kubernetes@1
       inputs:
         connectionType: 'Kubernetes Service Connection'
-        kubernetesServiceEndpoint: 'sc-aks-stcs'
+        kubernetesServiceEndpoint: 'sc-aks-serviceaccount'
         command: 
         useConfigurationFile: true
         configurationType: 'inline'
@@ -44,7 +44,7 @@ stages:
     - task: KubernetesManifest@0
       inputs:
         action: 'deploy'
-        kubernetesServiceConnection: 'sc-aks-stcs'
+        kubernetesServiceConnection: 'sc-aks-serviceaccount'
         namespace: 'default'
         manifests: 
           'service-debezium-connect.yml'
