@@ -4,86 +4,45 @@ variables:
   group: test
   service_connection: 'sc-terraform3'
 
-trigger: none
+trigger:
   branches:
     include:
     - main
-  paths:
-   include:
-  - 2021-05-11-ADO/vnet
+ 
 pool:
   vmImage: ubuntu-latest
 
 stages:
-- stage: Validate_stage
-  displayName: Validate
+- stage: use_cli_to_deploy_aks
+  displayName: use cli to deploy aks
   jobs:
-  - job: validate_job
-
+  - job: deploy_aks
     steps:
-    - task: TerraformInstaller@0
-      displayName: Install Terraform
+    - task: HelmInstaller@0
       inputs:
-        terraformVersion: 'latest'
-
-  # Init
-    - task: TerraformTaskV3@3
-      displayName: Initiate Terraform
+       helmVersion: '2.14.1'
+       installKubectl: true
+    - task: AzureCLI@2
       inputs:
-        provider: 'azurerm'
-        command: 'init'
-        backendServiceArm: $(service_connection)
-        backendAzureRmResourceGroupName: 'rg-terraform'
-        backendAzureRmStorageAccountName: 'stterraform2022'
-        backendAzureRmContainerName: 'stcontainerterraform'
-        backendAzureRmKey: 'terraform.tfstate'
-
-         # Validate
-    - task: TerraformTaskV3@3
-      displayName: Validate Config
+        azureSubscription: 'sc-azurearm'
+        scriptType: 'bash'
+        scriptLocation: 'inlineScript'
+        inlineScript: 
+         'az acr import --name sc-acr-stcs-basic --source quay.io/strimzi/kafka:0.31.1-kafka-3.2.3 --image strimzi/kafka:0.31.1-kafka-3.2.3'
+    - task: Kubernetes@1
       inputs:
-        command: 'validate'
-
-    - task: TerraformTaskV3@3
-      displayName: execute plan
-      inputs:
-        provider: 'azurerm'
-        environmentServiceNameAzureRM: $(service_connection)
-        command: 'plan'
-        commandOptions: '-out tarigplan.out'
-
-  #   - task: TerraformTaskV3@3
-  #     displayName: Apply Terraform Deployment
-  #     inputs:
-  #          provider: 'azurerm'
-  #          environmentServiceNameAzureRM: 'sc-terraform3'
-  #          command: 'apply'
-  #          commandOptions: '-auto-approve'
-  
-  
-  #   - task: TerraformTaskV3@3
-  #     displayName: destroy terraform deployment
-  #     inputs:
-  #          provider: 'azurerm'
-  #          environmentServiceNameAzureRM: 'sc-terraform3'
-  #          command: 'destroy'
-  
-
-  # - job: Get_dummy_approval
-  #   dependsOn: validate_job
-  #   pool: server
-  #   steps: 
-  #   - task: ManualValidation@0
-  #     displayName: wait for approval
-  #     timeoutInMinutes: 60
-  #     inputs:
-  #       notifyUsers: 'thamdi@solutions.com.sa'
-  #       instructions: 'Review the plan in the next hour'
-     
-
-
-
-      
-
-
-
+        connectionType: 'Kubernetes Service Connection'
+        kubernetesServiceEndpoint: 'sc-aks-stcs'
+        command: 
+        useConfigurationFile: true
+        configurationType: 'inline'
+        inline: 'kubectl get pod -A'
+        secretType: 'dockerRegistry'
+        containerRegistryType: 'Azure Container Registry'
+        
+    # - task: Docker@2
+    #   inputs:
+    #     containerRegistry: 'sc-acr-stcs-basic'
+    #     repository: 'nginx'
+    #     command: 'push'
+    #     arguments: 'mcr.microsoft.com/oss/nginx/nginx:1.15.5-alpine'
