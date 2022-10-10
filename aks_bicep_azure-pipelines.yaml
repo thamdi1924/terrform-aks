@@ -44,7 +44,7 @@ stages:
         kubernetesServiceConnection: 'sc-aks-stcs'
         namespace: 'default'
         manifests: 
-          '$(SourceDirectory)/deploy_debezium_connect_app.yaml'
+          '$(Build.SourceDirectory)/deploy_debezium_connect_app.yaml'
 
     # - task: Docker@2
     #   inputs:
