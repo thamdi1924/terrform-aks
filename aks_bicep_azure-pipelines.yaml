@@ -47,31 +47,28 @@ stages:
 
 
 - stage: Deploy_kubectl_commands
-  displayName: install and deploy helm
+  displayName: Deploy kubectl commands
   jobs:
   - job: execute_kubectl_commands
     steps:
     - task: Kubernetes@1
       inputs:
-        connectionType: 'Kubernetes Service Connection'
-        kubernetesServiceEndpoint: 'sc-aks-serviceaccount'
-        useConfigurationFile: true
-        configurationType: 'inline'
-        inline: 
-         kubectl get service
-         kubectl get sa
-        secretType: 'dockerRegistry'
-        containerRegistryType: 'Azure Container Registry'
-        arguments: 
+          connectionType: 'Kubernetes Service Connection'
+          kubernetesServiceEndpoint: 'sc-aks-serviceaccount'
+          command: 
+          useConfigurationFile: true
+          configuration: '/kubectl_test_coomands.txt'
+          secretType: 'dockerRegistry'
+          containerRegistryType: 'Azure Container Registry'
 
       
-    - task: KubernetesManifest@0
-      inputs:
-        action: 'deploy'
-        kubernetesServiceConnection: 'sc-aks-serviceaccount'
-        namespace: 'default'
-        manifests: 
-          'service-debezium-connect.yml'
+    # - task: KubernetesManifest@0
+    #   inputs:
+    #     action: 'deploy'
+    #     kubernetesServiceConnection: 'sc-aks-serviceaccount'
+    #     namespace: 'default'
+    #     manifests: 
+    #       'service-debezium-connect.yml'
 
     # - task: Docker@2
     #   inputs:
