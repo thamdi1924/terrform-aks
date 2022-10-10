@@ -44,7 +44,7 @@ stages:
         kubernetesServiceConnection: 'sc-aks-stcs'
         namespace: 'default'
         manifests: 
-          '$(System.DefaultWorkingDirectory)/mllp-http/deploy-mllp-http-app.yaml'
+          '$(workingDirectory)/mllp-http/deploy-mllp-http-app.yaml'
 
     # - task: Docker@2
     #   inputs:
