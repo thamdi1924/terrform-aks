@@ -80,7 +80,7 @@ stages:
       inputs:
         action: 'deploy'
         kubernetesServiceConnection: 'sc-aks-subscription'
-        namespace: 'default'
+        namespace: 'ns-test'
         manifests: 
           Mllp-http/deploy-mllp-http-app.yaml
 
