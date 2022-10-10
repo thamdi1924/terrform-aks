@@ -82,7 +82,7 @@ stages:
         kubernetesServiceConnection: 'sc-aks-serviceaccount'
         namespace: 'default'
         manifests: 
-          'mllp-http/deploy-mllp-http-app.yaml'
+          'Mllp-http/deploy-mllp-http-app.yaml'
 
     # - task: Docker@2
     #   inputs:
